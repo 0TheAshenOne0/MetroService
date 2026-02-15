@@ -1,4 +1,4 @@
-
+import java.time.LocalTime;
 
 public class Metro {
     double price;
@@ -11,9 +11,13 @@ public class Metro {
         name = trainName;
         availability = isAvailable;
 
+    }
+    static public boolean late()
+    {
+        return LocalTime.parse("23:00:00").isBefore(LocalTime.now());
+
 
 
     }
-
 
 }
