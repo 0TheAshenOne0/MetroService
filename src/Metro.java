@@ -20,35 +20,50 @@ import java.util.Scanner;
         return LocalTime.parse("21:00:00").isBefore(LocalTime.now());
 
     }
-     public void processor()
+
+    public boolean isAvailable()
+     {
+         return availability;
+     }
+
+    public double calculateTotalCost(int adults, int minors)
     {
-        if (!availability)
+        return  price * adults + (price * minors / 2);
+    }
+
+     public void processBooking()
+    {
+        if (!isAvailable())
         {
             System.out.println("It's too late! The metro is closed!");
             return;
         }
         int minors = 0;
         IO.println("Welcome to the London underground metro service! How many passengers shall be boarding?");
-        int members = scanner.nextInt();
-        int[] ages = new int[members];
-        for (int i = 0; i < members; i++) {
+        int passengers = scanner.nextInt();
+        int[] ages = new int[passengers];
+        for (int i = 0; i < passengers; i++) {
             IO.println("Age person " + (i + 1) + ":");
             ages[i] = scanner.nextInt();
             if (ages[i] < 18)
             {
                 minors++;
-
             }
-
         }
 
-        int adultTickets = members - minors;
-        double totalCost = price * adultTickets + (price * minors / 2);
-        System.out.println("Adults: " + adultTickets);
+        int adults = passengers - minors;
+        double totalCost = calculateTotalCost(adults, minors);
+
+        displayBooking(adults, minors, totalCost);
+
+    }
+    private void displayBooking(int adults, int minors, double totalCost )
+    {
+        System.out.println("-------Booking summary---------");
+        System.out.println("Train: " + name);
+        System.out.println("Adults: " + adults);
         System.out.println("Minors: " + minors);
-        System.out.println("Train: " + name + "\nAvailability Status: " + availability + "\nTotal Cost: " + totalCost + "$") ;
-
-
+        System.out.println("Total Cost " + totalCost + "$");
     }
 
 }
